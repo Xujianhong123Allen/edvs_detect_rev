@@ -1,0 +1,23 @@
+<launch>
+  <!-- camera driver -->
+  <node name="edvs_ros_simple" pkg="edvs_ros_simple" type="edvs_ros_simple">
+	<rosparam command="load" file="$(find edvs_ros_simple)/config/fast.yaml" />
+  </node>
+
+  <!-- visualization -->
+  <node name="dvs_renderer" pkg="dvs_renderer" type="dvs_renderer">
+    <!-- <param name="display_method" value="grayscale"/> -->
+    <param name="display_method" value="red-blue"/>
+    <remap from="/edvs/event_array" to="/edvs/event_array" />
+    <remap from="/edvs/camera_info" to="/edvs/camera_info" />
+  </node>
+
+  <!-- display -->
+  <node name="rqt_gui" pkg="rqt_gui" type="rqt_gui">
+  	<remap from="image" to="dvs_rendering"/>
+  </node>
+
+  <!-- configure -->
+  <!-- <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" /> -->
+
+</launch>
